@@ -97,6 +97,7 @@ public class Slack {
     public static SendMessageResponse sendMessageWithAttachments(String messageText, List<Attachment> attachments) {
 
         // TODO (optional): implement this method! See https://api.slack.com/docs/message-attachments
+        
         throw new RuntimeException("Method not implemented!");
     }
 
