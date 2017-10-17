@@ -16,6 +16,7 @@ public class Main {
 
         // Post "Hello, world!" to the #bots channel
         //myBot.sendMessage("Hello, world!");
+        //I want to see how this works
 
         // Post a pineapple photo to the #bots channel
         //myBot.sendMessage("http://weknowyourdreams.com/images/pineapple/pineapple-07.jpg");
