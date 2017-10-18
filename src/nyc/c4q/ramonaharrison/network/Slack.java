@@ -97,8 +97,18 @@ public class Slack {
     public static SendMessageResponse sendMessageWithAttachments(String messageText, List<Attachment> attachments) {
 
         // TODO (optional): implement this method! See https://api.slack.com/docs/message-attachments
-        
-        throw new RuntimeException("Method not implemented!");
+        try {
+            messageText = URLEncoder.encode(messageText, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+
+            throw new RuntimeException("Method not implemented!");
+        }
+
+        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&text=" + messageText);
+
+        return new SendMessageResponse(HTTPS.get(sendMessageUrl));
+
+
     }
 
     /**
