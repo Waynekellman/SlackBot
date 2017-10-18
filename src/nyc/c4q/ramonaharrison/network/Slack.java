@@ -104,13 +104,24 @@ public class Slack {
 //        } catch (UnsupportedEncodingException e) {
 //            throw new RuntimeException(e);
 //        }
+        String attached = attachments.get(0).getImage_url();
+        try {
+            messageText = URLEncoder.encode(messageText, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            attached = URLEncoder.encode(attached, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
 //
 //
 //
-//        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&text=" + messageText + "$attachments=" + attachments);
+        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&text=" + messageText + "$attachments=" + attached);
 //
-//        return new SendMessageResponse(HTTPS.get(sendMessageUrl));
-        throw new RuntimeException("Method not implemented!");
+        return new SendMessageResponse(HTTPS.get(sendMessageUrl));
+//        throw new RuntimeException("Method not implemented!");
 
 
 

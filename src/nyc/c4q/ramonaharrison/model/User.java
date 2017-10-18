@@ -41,7 +41,7 @@ public class User {
             this.name = (String) json.get("name");
         }
         if (json.get("deleted") != null) {
-            this.deleted = (boolean) json.get("deleted");
+            this.deleted = (Boolean) json.get("deleted");
         }
         if (json.get("color") != null) {
             this.color = (String) json.get("color");

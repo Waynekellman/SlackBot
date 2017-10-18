@@ -1,6 +1,11 @@
 package nyc.c4q.ramonaharrison;
 
 import nyc.c4q.ramonaharrison.network.Slack;
+import nyc.c4q.ramonaharrison.network.response.Response;
+import org.json.simple.JSONObject;
+
+import java.net.URL;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -18,9 +23,11 @@ public class Main {
         //myBot.sendMessage("Hello, world!");
 
 
-        myBot.sendMessageToBotsChannel("Hello, world!");
+        myBot.sendMessageToBotsChannel("Test");
         myBot.sendMessageToBotsChannel("http://weknowyourdreams.com/images/pineapple/pineapple-07.jpg");
-        myBot.sendMessageToBotsChannel("Wayne, Quana, Anas and Tech Tai are in da house!! We in da house!!");
+
+
+//        myBot.sendMessageToBotsChannel("Wayne, Quana, Anas and Tech Tai are in da house!! We in da house!!");
 
 
         //I want to see how this works

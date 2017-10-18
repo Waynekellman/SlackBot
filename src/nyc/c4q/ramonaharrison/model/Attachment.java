@@ -30,7 +30,7 @@ public class Attachment {
      private String thumb_url;
      private String footer;
      private String footer_icon;
-     private int ts;
+     private String ts;
 
     public Attachment(JSONObject json) {
         // TODO: parse an attachment from the incoming json
@@ -77,7 +77,7 @@ public class Attachment {
             this.footer_icon = (String) json.get("footer_icon");
         }
         if (json.get("ts") != null) {
-            this.ts = (int) json.get("ts");
+            this.ts = (String) json.get("ts");
         }
     }
 
@@ -140,7 +140,7 @@ public class Attachment {
         return footer_icon;
     }
 
-    public int getTs() {
+    public String getTs() {
         return ts;
     }
 }
