@@ -25,7 +25,7 @@ public class Attachment {
      private String title;
      private String title_link;
      private String text;
-     private Map fields;
+     private Field fields;
      private String image_url;
      private String thumb_url;
      private String footer;
@@ -62,7 +62,7 @@ public class Attachment {
             this.text = (String) json.get("text");
         }
         if (json.get("fields") != null) {
-            this.fields = (Map) json.get("fields");
+            this.fields = (Field) json.get("fields");
         }
         if (json.get("image_url") != null) {
             this.image_url = (String) json.get("image_url");
@@ -120,7 +120,7 @@ public class Attachment {
         return text;
     }
 
-    public Map<String, String> getFields() {
+    public Field getFields() {
         return fields;
     }
 

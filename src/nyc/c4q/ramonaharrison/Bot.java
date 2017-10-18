@@ -18,7 +18,6 @@ public class Bot {
 
     public Bot() {
 
-        sendMessageToBotsChannel("Hello");
     }
 
     /**

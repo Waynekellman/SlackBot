@@ -3,6 +3,7 @@ package nyc.c4q.ramonaharrison.network;
 import nyc.c4q.ramonaharrison.model.Attachment;
 import nyc.c4q.ramonaharrison.network.response.*;
 import nyc.c4q.ramonaharrison.util.Token;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -28,7 +29,7 @@ public class Slack {
     private static final String ENDPOINT_POST_MESSAGE = "chat.postMessage";
     private static final String ENDPOINT_DELETE_MESSAGE = "chat.delete";
 
-    public static final String BOTS_CHANNEL_ID = "C2ABKERFT";
+    public static final String BOTS_CHANNEL_ID = "C7KE0KTM4";
 
     /**
      * Static method to test the Slack API.
@@ -97,16 +98,20 @@ public class Slack {
     public static SendMessageResponse sendMessageWithAttachments(String messageText, List<Attachment> attachments) {
 
         // TODO (optional): implement this method! See https://api.slack.com/docs/message-attachments
-        try {
-            messageText = URLEncoder.encode(messageText, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
 
-            throw new RuntimeException("Method not implemented!");
-        }
+//        try {
+//            messageText = URLEncoder.encode(messageText, "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//
+//
+//        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&text=" + messageText + "$attachments=" + attachments);
+//
+//        return new SendMessageResponse(HTTPS.get(sendMessageUrl));
+        throw new RuntimeException("Method not implemented!");
 
-        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&text=" + messageText);
-
-        return new SendMessageResponse(HTTPS.get(sendMessageUrl));
 
 
     }
