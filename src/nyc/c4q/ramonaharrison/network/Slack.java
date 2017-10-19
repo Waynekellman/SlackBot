@@ -22,12 +22,15 @@ import java.util.List;
 public class Slack {
 
     private static final String API_KEY = Token.findApiToken();
+    private static final String API_KEY_MYBOT = Token.findApiTokenMyBot();
     private static final String BASE_URL = "https://slack.com/api/";
     private static final String ENDPOINT_TEST = "api.test";
     private static final String ENDPOINT_LIST_CHANNELS = "channels.list";
     private static final String ENDPOINT_LIST_MESSAGES = "channels.history";
     private static final String ENDPOINT_POST_MESSAGE = "chat.postMessage";
     private static final String ENDPOINT_DELETE_MESSAGE = "chat.delete";
+    private static final String asUser = "U7KE84BLM";
+    public static final String IM_CHANNEL ="C7L506REW";
 
     public static final String BOTS_CHANNEL_ID = "C7KE0KTM4";
 
@@ -43,6 +46,26 @@ public class Slack {
 
         return new Response(object);
     }
+    public static Response testApiMyBot() {
+        URL testUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_TEST  + "?token=" + API_KEY_MYBOT);
+
+        JSONObject object = HTTPS.get(testUrl);
+
+        return new Response(object);
+    }
+
+    public static Response slashCommad(String messageText){
+        try {
+            messageText = URLEncoder.encode(messageText, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        URL webhook = HTTPS.stringToURL("https://hooks.slack.com/services/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" + "?token=" + API_KEY_MYBOT + "&channel=" + IM_CHANNEL + "&text=" + messageText);
+        JSONObject object = HTTPS.get(webhook);
+
+        return new Response(object);
+    }
+
 
     /**
      * Static method to list all public channels on the Slack team.
@@ -52,6 +75,12 @@ public class Slack {
     public static ListChannelsResponse listChannels() {
 
         URL listChannelsUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_LIST_CHANNELS + "?token=" + API_KEY);
+
+        return new ListChannelsResponse(HTTPS.get(listChannelsUrl));
+    }
+    public static ListChannelsResponse listChannelsMyBot() {
+
+        URL listChannelsUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_LIST_CHANNELS + "?token=" + API_KEY_MYBOT);
 
         return new ListChannelsResponse(HTTPS.get(listChannelsUrl));
     }
@@ -65,6 +94,13 @@ public class Slack {
     public static ListMessagesResponse listMessages(String channelId) {
 
         URL listMessagesUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_LIST_MESSAGES + "?token=" + API_KEY + "&channel=" + channelId);
+
+        return new ListMessagesResponse(HTTPS.get(listMessagesUrl));
+    }
+
+    public static ListMessagesResponse listMessagesMyBot(String channelId) {
+
+        URL listMessagesUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_LIST_MESSAGES + "?token=" + API_KEY_MYBOT + "&channel=" + channelId);
 
         return new ListMessagesResponse(HTTPS.get(listMessagesUrl));
     }
@@ -83,7 +119,21 @@ public class Slack {
             throw new RuntimeException(e);
         }
 
-        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&text=" + messageText);
+        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&text=" + messageText + "&as_user=" + asUser);
+
+        return new SendMessageResponse(HTTPS.get(sendMessageUrl));
+    }
+
+    //=================
+    public static SendMessageResponse sendIMMessageMyBot(String messageText) {
+
+        try {
+            messageText = URLEncoder.encode(messageText, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+
+        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY_MYBOT + "&channel=" + IM_CHANNEL + "&text=" + messageText + "&as_user=" + asUser);
 
         return new SendMessageResponse(HTTPS.get(sendMessageUrl));
     }
@@ -126,6 +176,37 @@ public class Slack {
 
 
     }
+    public static SendMessageResponse sendMessageWithAttachmentsMyBot(String messageText, List<Attachment> attachments) {
+
+        // TODO (optional): implement this method! See https://api.slack.com/docs/message-attachments
+
+//        try {
+//            messageText = URLEncoder.encode(messageText, "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            throw new RuntimeException(e);
+//        }
+        String attached = attachments.get(0).getImage_url();
+        try {
+            messageText = URLEncoder.encode(messageText, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            attached = URLEncoder.encode(attached, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+//
+//
+//
+        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY_MYBOT + "&channel=" + IM_CHANNEL + "&text=" + messageText + "$attachments=" + attached);
+//
+        return new SendMessageResponse(HTTPS.get(sendMessageUrl));
+//        throw new RuntimeException("Method not implemented!");
+
+
+
+    }
 
     /**
      * Static method to delete an existing message from the #bots channel.
@@ -135,6 +216,11 @@ public class Slack {
      */
     public static DeleteMessageResponse deleteMessage(String messageTs) {
         URL deleteMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_DELETE_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&ts=" + messageTs);
+
+        return new DeleteMessageResponse(HTTPS.get(deleteMessageUrl));
+    }
+    public static DeleteMessageResponse deleteMessageMyBot(String messageTs) {
+        URL deleteMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_DELETE_MESSAGE + "?token=" + API_KEY_MYBOT + "&channel=" + IM_CHANNEL + "&ts=" + messageTs);
 
         return new DeleteMessageResponse(HTTPS.get(deleteMessageUrl));
     }

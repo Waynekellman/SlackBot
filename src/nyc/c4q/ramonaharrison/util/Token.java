@@ -36,4 +36,27 @@ public class Token {
 
         return apiKey;
     }
+    public static String findApiTokenMyBot() {
+
+        String apiKey = "";
+
+        File file = new File("api_token_myBot.txt");
+        System.out.println(file.getAbsolutePath());
+
+        try {
+
+            Scanner scanner = new Scanner(file);
+
+            apiKey = scanner.next();
+
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+
+        }
+
+        return apiKey;
+    }
 }

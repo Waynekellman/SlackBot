@@ -5,8 +5,12 @@ import nyc.c4q.ramonaharrison.model.Channel;
 import nyc.c4q.ramonaharrison.model.Message;
 import nyc.c4q.ramonaharrison.network.*;
 import nyc.c4q.ramonaharrison.network.response.*;
+import nyc.c4q.ramonaharrison.util.application.json;
+import org.json.simple.JSONObject;
 
+import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ramona Harrison
@@ -17,9 +21,25 @@ import java.util.List;
 public class Bot {
     // TODO: implement your bot logic!
 
+//    private static final String webhook = json.findWebHook();
+
     public Bot() {
 
+
     }
+
+    public void slashCommand(){
+
+        Response slashCommand = Slack.slashCommad("Hello");
+
+        if (slashCommand.isOk()) {
+            System.out.println("Message sent successfully!");
+        } else {
+            System.err.print("Error sending message: " + slashCommand.getError());
+        }
+
+    }
+
 
     /**
      * Sample method: tests the Slack API. Prints a message indicating success or failure.
@@ -69,6 +89,45 @@ public class Bot {
             System.err.print("Error listing messages: " + listMessagesResponse.getError());
         }
     }
+    //===================
+    public void testApiMyBot() {
+        Response apiTest = Slack.testApiMyBot();
+        System.out.println("API OK: " +apiTest.isOk() + "\n");
+    }
+
+
+    public void listChannelsMyBot() {
+        ListChannelsResponse listChannelsResponse = Slack.listChannelsMyBot();
+
+        if (listChannelsResponse.isOk()) {
+            List<Channel> channels = listChannelsResponse.getChannels();
+
+            System.out.println("\nChannels: ");
+            for (Channel channel : channels) {
+                System.out.println("name: " + channel.getName() + ", id:" + channel.getId());
+            }
+        } else {
+            System.err.print("Error listing channels: " + listChannelsResponse.getError());
+        }
+    }
+
+
+    public void listMessagesMyBot(String channelId) {
+        ListMessagesResponse listMessagesResponse = Slack.listMessagesMyBot(channelId);
+
+        if (listMessagesResponse.isOk()) {
+            List<Message> messages = listMessagesResponse.getMessages();
+
+            System.out.println("\nMessages: ");
+            for (Message message : messages) {
+                System.out.println();
+                System.out.println("Timestamp: " + message.getTs());
+                System.out.println("Message: " + message.getText());
+            }
+        } else {
+            System.err.print("Error listing messages: " + listMessagesResponse.getError());
+        }
+    }
 
     /**
      * Sample method: sends a plain text message to the #bots channel. Prints a message indicating success or failure.
@@ -77,6 +136,16 @@ public class Bot {
      */
     public void sendMessageToBotsChannel(String text) {
         SendMessageResponse sendMessageResponse = Slack.sendMessage(text);
+
+        if (sendMessageResponse.isOk()) {
+            System.out.println("Message sent successfully!");
+        } else {
+            System.err.print("Error sending message: " + sendMessageResponse.getError());
+        }
+    }
+
+    public void sendMessageToBotsIMChannel(String text) {
+        SendMessageResponse sendMessageResponse = Slack.sendIMMessageMyBot(text);
 
         if (sendMessageResponse.isOk()) {
             System.out.println("Message sent successfully!");
