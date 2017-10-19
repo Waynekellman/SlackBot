@@ -54,18 +54,6 @@ public class Slack {
         return new Response(object);
     }
 
-    public static Response slashCommad(String messageText){
-        try {
-            messageText = URLEncoder.encode(messageText, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-        URL webhook = HTTPS.stringToURL("https://hooks.slack.com/services/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" + "?token=" + API_KEY_MYBOT + "&channel=" + IM_CHANNEL + "&text=" + messageText);
-        JSONObject object = HTTPS.get(webhook);
-
-        return new Response(object);
-    }
-
 
     /**
      * Static method to list all public channels on the Slack team.

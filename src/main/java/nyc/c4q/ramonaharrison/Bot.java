@@ -5,12 +5,8 @@ import nyc.c4q.ramonaharrison.model.Channel;
 import nyc.c4q.ramonaharrison.model.Message;
 import nyc.c4q.ramonaharrison.network.*;
 import nyc.c4q.ramonaharrison.network.response.*;
-import nyc.c4q.ramonaharrison.util.application.json;
-import org.json.simple.JSONObject;
 
-import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Ramona Harrison
@@ -21,24 +17,11 @@ import java.util.Map;
 public class Bot {
     // TODO: implement your bot logic!
 
-//    private static final String webhook = json.findWebHook();
-
     public Bot() {
 
 
     }
 
-    public void slashCommand(){
-
-        Response slashCommand = Slack.slashCommad("Hello");
-
-        if (slashCommand.isOk()) {
-            System.out.println("Message sent successfully!");
-        } else {
-            System.err.print("Error sending message: " + slashCommand.getError());
-        }
-
-    }
 
 
     /**
@@ -136,6 +119,16 @@ public class Bot {
      */
     public void sendMessageToBotsChannel(String text) {
         SendMessageResponse sendMessageResponse = Slack.sendMessage(text);
+
+        if (sendMessageResponse.isOk()) {
+            System.out.println("Message sent successfully!");
+        } else {
+            System.err.print("Error sending message: " + sendMessageResponse.getError());
+        }
+    }
+
+    public void sendAttachmentsToChannel(String text, List<Attachment> attachments){
+        SendMessageResponse sendMessageResponse = Slack.sendMessageWithAttachments(text,attachments);
 
         if (sendMessageResponse.isOk()) {
             System.out.println("Message sent successfully!");
