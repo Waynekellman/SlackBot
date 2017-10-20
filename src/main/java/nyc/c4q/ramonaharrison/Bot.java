@@ -5,7 +5,19 @@ import nyc.c4q.ramonaharrison.model.Channel;
 import nyc.c4q.ramonaharrison.model.Message;
 import nyc.c4q.ramonaharrison.network.*;
 import nyc.c4q.ramonaharrison.network.response.*;
+import nyc.c4q.ramonaharrison.util.Token;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -17,12 +29,32 @@ import java.util.List;
 public class Bot {
     // TODO: implement your bot logic!
 
-    public Bot() {
+    public Bot() throws IOException {
 
 
+        HttpClient client = HttpClientBuilder.create().build();
+        String uRL1="https://hooks.slack.com/services/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";
+        String uRL2="https://hooks.slack.com/services/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";
+        HttpPost post = new HttpPost(uRL2);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("content-type", "application/json");
+        System.out.println(jsonObject.get("content-type"));
+        jsonObject.put("text", "hello darkness my old friend");
+        StringEntity postingString = new StringEntity(jsonObject.toString());//gson.tojson() converts your pojo to json
+        post.setEntity(postingString);
+        post.setHeader("Content-type", "application/json");
+//        HttpResponse response = client.execute(post);
+//
+//
+//        BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+//        StringBuffer result = new StringBuffer();
+//
+//        String line = "";
+//        while((line = rd.readLine())!=null){
+//            result.append(line);
+//            System.out.println("response payload is " + result);
+//        }
     }
-
-
 
     /**
      * Sample method: tests the Slack API. Prints a message indicating success or failure.
@@ -127,15 +159,6 @@ public class Bot {
         }
     }
 
-    public void sendAttachmentsToChannel(String text, List<Attachment> attachments){
-        SendMessageResponse sendMessageResponse = Slack.sendMessageWithAttachments(text,attachments);
-
-        if (sendMessageResponse.isOk()) {
-            System.out.println("Message sent successfully!");
-        } else {
-            System.err.print("Error sending message: " + sendMessageResponse.getError());
-        }
-    }
 
     public void sendMessageToBotsIMChannel(String text) {
         SendMessageResponse sendMessageResponse = Slack.sendIMMessageMyBot(text);

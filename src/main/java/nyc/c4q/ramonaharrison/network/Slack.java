@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ramona Harrison
@@ -23,6 +24,7 @@ public class Slack {
 
     private static final String API_KEY = Token.findApiToken();
     private static final String API_KEY_MYBOT = Token.findApiTokenMyBot();
+    private static final String API_KEY_BIG = Token.findApiTokenBig();
     private static final String BASE_URL = "https://slack.com/api/";
     private static final String ENDPOINT_TEST = "api.test";
     private static final String ENDPOINT_LIST_CHANNELS = "channels.list";
@@ -30,7 +32,7 @@ public class Slack {
     private static final String ENDPOINT_POST_MESSAGE = "chat.postMessage";
     private static final String ENDPOINT_DELETE_MESSAGE = "chat.delete";
     private static final String asUser = "U7KE84BLM";
-    public static final String IM_CHANNEL ="C7L506REW";
+    public static final String IM_CHANNEL ="D7JQB8HMF";
 
     public static final String BOTS_CHANNEL_ID = "C7KE0KTM4";
 
@@ -133,33 +135,11 @@ public class Slack {
      * @param  attachments a list of one of more attachments to be parsed to a JSON-encoded URL string parameter.
      * @return the SendMessageResponse indicating ok/error or null if the connection failed.
      */
-    public static SendMessageResponse sendMessageWithAttachments(String messageText, List<Attachment> attachments) {
+    public static SendMessageResponse sendMessageWithAttachments(String messageText, List<Attachment> attachment) {
 
         // TODO (optional): implement this method! See https://api.slack.com/docs/message-attachments
 
-//        try {
-//            messageText = URLEncoder.encode(messageText, "UTF-8");
-//        } catch (UnsupportedEncodingException e) {
-//            throw new RuntimeException(e);
-//        }
-        String attached = attachments.get(0).getImage_url();
-        try {
-            messageText = URLEncoder.encode(messageText, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            attached = URLEncoder.encode(attached, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-//
-//
-//
-        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY + "&channel=" + BOTS_CHANNEL_ID + "&text=" + messageText + "$attachments=" + attached);
-//
-        return new SendMessageResponse(HTTPS.get(sendMessageUrl));
-//        throw new RuntimeException("Method not implemented!");
+        throw new RuntimeException("Method not implemented!");
 
 
 

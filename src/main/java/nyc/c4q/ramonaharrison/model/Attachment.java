@@ -1,7 +1,9 @@
 package nyc.c4q.ramonaharrison.model;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -62,7 +64,7 @@ public class Attachment {
             this.text = (String) json.get("text");
         }
         if (json.get("fields") != null) {
-            this.fields = (Field) json.get("fields");
+            this.fields = new Field((JSONObject) json.get("fields"));
         }
         if (json.get("image_url") != null) {
             this.image_url = (String) json.get("image_url");

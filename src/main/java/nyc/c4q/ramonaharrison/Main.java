@@ -1,20 +1,34 @@
 package nyc.c4q.ramonaharrison;
 
+import nyc.c4q.ramonaharrison.model.Attachment;
+import nyc.c4q.ramonaharrison.network.HTTPS;
 import nyc.c4q.ramonaharrison.network.Slack;
+import nyc.c4q.ramonaharrison.network.response.SendMessageResponse;
+import nyc.c4q.ramonaharrison.util.Token;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.HttpEntityWrapper;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
-import nyc.c4q.ramonaharrison.JSONparser;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 
 public class Main {
@@ -37,59 +51,116 @@ public class Main {
                     + "    }"
                     + "  ]"
                     + "}";
+    private final static String JsonObject2 =
+            "{"
+                    +" \"attachment\": ["
+                    +"   {"
+                    +"      \"fallback\": \"Hello my sunshine\","
+                    +"      \"pretext\": \"Rainbow smiles\","
+                    +"      \"title\": \"Happiness\","
+                    +"      \"title_link\": \"https://usercontent1.hubstatic.com/6295648_f520.jpg\","
+                    +"      \"text\": \"Hope this works\","
+                    +"      \"color\": \"#7CD197\""
+                    +"   }"
+                    +" ]"
+                    +"}";
     private static JSONObject jObject = null;
+    private static JSONObject jObject2 = null;
 
     public static void main(String[] args) throws JSONException, IOException, ParseException {
+//
+//        Bot myBot = new Bot();
+//
+//        myBot.testApi();
+//
+//        myBot.listChannels();
+//
+//        myBot.listMessages(Slack.BOTS_CHANNEL_ID);
+//
+//        Bot myBotTest = new Bot();
+//
+//        myBotTest.testApiMyBot();
+//
+//        myBotTest.listChannelsMyBot();
+//
+//        myBotTest.listMessagesMyBot(Slack.IM_CHANNEL);
+//        System.out.println();
 
-        /*Bot myBot = new Bot();
+//
+        JSONObject obj = new JSONObject(JsonObject2);
+        System.out.println(obj.toString());
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost("https://hooks.slack.com/services/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");
+        HttpPost post1 = new HttpPost("https://hooks.slack.com/services/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");
+        StringEntity postingString = new StringEntity(obj.toString());//gson.tojson() converts your pojo to json
+        post.setEntity(postingString);
+        post.setHeader("content-type", "application/x-www-form-urlencoded");
+//        post.setHeader("Content-type", "application/json");
+        HttpResponse response = client.execute(post);
+        
+//        HttpClient client = HttpClientBuilder.create().build();
+//        StringEntity posting = new StringEntity(obj.toString());
+//        post1.setEntity(posting);
+//        post1.addHeader("attachment ", obj.toString());
+//        System.out.println(post1);
+//        HttpResponse response = client.execute(post1);
 
-        myBot.testApi();
 
-        myBot.listChannels();
+//        myBotTest.sendMessageToBotsIMChannel(obj.toString());
 
-        myBot.listMessages(Slack.BOTS_CHANNEL_ID);
-
-        Bot myBotTest = new Bot();
-
-        myBotTest.testApiMyBot();
-
-        myBotTest.listChannelsMyBot();
-
-        myBotTest.listMessagesMyBot(Slack.IM_CHANNEL);
-        System.out.println();*/
+//        public static SendMessageResponse sendIMMessageMyBot(String messageText) {
+//
+//        try {
+//            messageText = URLEncoder.encode(messageText, "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        URL sendMessageUrl = HTTPS.stringToURL(BASE_URL + ENDPOINT_POST_MESSAGE + "?token=" + API_KEY_MYBOT + "&channel=" + IM_CHANNEL + "&text=" + messageText + "&as_user=" + asUser);
+//
+//        return new SendMessageResponse(HTTPS.get(sendMessageUrl));
+//    }
 
 //        HttpGet request = new HttpGet("https://hooks.slack.com/services/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");
 //        HttpResponse response = client.execute(request);
+//
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("content-type", "application/json");
+//        System.out.println(jsonObject.get("content-type"));
+//        JSONArray attachment = new JSONArray();
+//        attachment.put(obj);
+//        jsonObject.put("attachment", attachment);
+//        obj.put("payload", JsonObject2);
+//
+//
+//
+//
+//        BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+//        StringBuffer result = new StringBuffer();
+//
+//        String line = "";
+//        while((line = rd.readLine())!=null){
+//            result.append(line);
+//            System.out.println("response payload is " + result);
+//        }
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("content-type", "application/json");
-        System.out.println(jsonObject.get("content-type"));
-        jsonObject.put("text", "hello darkness my old friend");
 
-
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost("https://hooks.slack.com/services/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");
-        StringEntity postingString = new StringEntity(jsonObject.toString());//gson.tojson() converts your pojo to json
-        post.setEntity(postingString);
-        post.setHeader("Content-type", "application/json");
-//        HttpResponse  response = client.execute(post);
 
 //        HttpGet request = new HttpGet("https://guessbot.slack.com/messages/D7JQB8HMF/?code=256675766608.256826586913.9a158c253763c703b24bf74f94223e96a4c337cccb040d397904e1922f8f0fff&state=");
-        String sURL = "https://guessbot.slack.com/messages/D7JQB8HMF/?code=256675766608.256826586913.9a158c253763c703b24bf74f94223e96a4c337cccb040d397904e1922f8f0fff&state="; //just a string
-
-        String wURL = "https://hooks.slack.com/services/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";
-        String url = "your url";
-        JSONparser jsonParser = new JSONparser();
-        JSONObject object = jsonParser.getJSONFromUrl(sURL);
+//        String sURL = "https://guessbot.slack.com/messages/D7JQB8HMF/?code=256675766608.256826586913.9a158c253763c703b24bf74f94223e96a4c337cccb040d397904e1922f8f0fff&state="; //just a string
+//
+//        String wURL = "https://hooks.slack.com/services/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";
+//        JSONParser jsonParser = new JSONParser();
+//        JSONObject object = jsonParser.getJSONFromUrl(wURL);
 //        String content=object.getString(Slack.IM_CHANNEL);
-
+//
 //        System.out.println(content);
-
-        HttpPost post2 = new HttpPost("https://hooks.slack.com/services/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");
-        StringEntity postingsString = new StringEntity(jsonObject.toString());//gson.tojson() converts your pojo to json
-        post2.setEntity(postingsString);
-        post2.setHeader("Content-type", "application/json");
-        HttpResponse response = client.execute(post2);
+//
+//        HttpPost post2 = new HttpPost("https://hooks.slack.com/services/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");
+//        StringEntity postingsString = new StringEntity(jsonObject.toString());//gson.tojson() converts your pojo to json
+//        post2.setEntity(postingsString);
+//        post2.setHeader("Content-type", "application/json");
+//        HttpResponse response = client.execute(post2);
 
 
 //

@@ -33,7 +33,7 @@ public class Message {
     private String text;
     private String ts;
     private String user;
-    List<Attachment> attachments;
+    private List<Attachment> attachments;
 
     public Message(JSONObject json) {
         if (json.get("text") != null) {
