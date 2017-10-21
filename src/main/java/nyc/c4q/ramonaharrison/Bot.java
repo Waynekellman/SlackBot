@@ -32,17 +32,17 @@ public class Bot {
     public Bot() throws IOException {
 
 
-        HttpClient client = HttpClientBuilder.create().build();
-        String uRL1="https://hooks.slack.com/services/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";
-        String uRL2="https://hooks.slack.com/services/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";
-        HttpPost post = new HttpPost(uRL2);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("content-type", "application/json");
-        System.out.println(jsonObject.get("content-type"));
-        jsonObject.put("text", "hello darkness my old friend");
-        StringEntity postingString = new StringEntity(jsonObject.toString());//gson.tojson() converts your pojo to json
-        post.setEntity(postingString);
-        post.setHeader("Content-type", "application/json");
+//        HttpClient client = HttpClientBuilder.create().build();
+//        String uRL1="https://hooks.slack.com/services/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";
+//        String uRL2="https://hooks.slack.com/services/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";
+//        HttpPost post = new HttpPost(uRL2);
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("content-type", "application/json");
+////        System.out.println(jsonObject.get("content-type"));
+//        jsonObject.put("text", "hello darkness my old friend");
+//        StringEntity postingString = new StringEntity(jsonObject.toString());//gson.tojson() converts your pojo to json
+//        post.setEntity(postingString);
+//        post.setHeader("Content-type", "application/json");
 //        HttpResponse response = client.execute(post);
 //
 //

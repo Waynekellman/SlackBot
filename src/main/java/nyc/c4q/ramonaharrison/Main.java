@@ -3,6 +3,7 @@ package nyc.c4q.ramonaharrison;
 import nyc.c4q.ramonaharrison.model.Attachment;
 import nyc.c4q.ramonaharrison.network.HTTPS;
 import nyc.c4q.ramonaharrison.network.Slack;
+import nyc.c4q.ramonaharrison.network.response.Response;
 import nyc.c4q.ramonaharrison.network.response.SendMessageResponse;
 import nyc.c4q.ramonaharrison.util.Token;
 import org.apache.http.HttpEntity;
@@ -15,7 +16,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 
@@ -77,6 +78,8 @@ public class Main {
 //
 //        myBot.listMessages(Slack.BOTS_CHANNEL_ID);
 //
+//        myBot.sendMessageToBotsChannel("Trying to send attachments but can't figure it out :P");
+//
 //        Bot myBotTest = new Bot();
 //
 //        myBotTest.testApiMyBot();
@@ -86,17 +89,39 @@ public class Main {
 //        myBotTest.listMessagesMyBot(Slack.IM_CHANNEL);
 //        System.out.println();
 
-//
-        JSONObject obj = new JSONObject(JsonObject2);
-        System.out.println(obj.toString());
+
         HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost("https://hooks.slack.com/services/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");
-        HttpPost post1 = new HttpPost("https://hooks.slack.com/services/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");
-        StringEntity postingString = new StringEntity(obj.toString());//gson.tojson() converts your pojo to json
+        String uRL1="https://hooks.slack.com/services/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";
+        String uRL2="https://hooks.slack.com/services/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";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("content-type", "application/json");
+        jsonObject.put("attachment",JsonObject2);
+        jsonObject.put("text", "hello darkness my old friend");
+        String uRL3="https://slack.com/api/" + "chat.postMessage" + "?token=" + Token.findApiToken() + "&channel=" + "C7KE0KTM4" + "&attachment=" + jsonObject.get("attachment") + "&as_user=" + "U7K9LUTFC";
+        uRL3 = URLEncoder.encode(uRL3, "UTF-8");
+        HttpPost post = new HttpPost(uRL3);
+        System.out.println(jsonObject.get("content-type"));
+        StringEntity postingString = new StringEntity(jsonObject.toString());//gson.tojson() converts your pojo to json
         post.setEntity(postingString);
-        post.setHeader("content-type", "application/x-www-form-urlencoded");
+        post.setHeader("Content-type", "application/json");
+        JSONObject uRL3Response = HTTPS.get(HTTPS.stringToURL(uRL3));
+        Response response = new Response(uRL3Response);
+        System.out.println(response.isOk());
+        System.out.println(response.getError());
+
+
+
+////
+//        JSONObject obj = new JSONObject(JsonObject2);
+//        System.out.println(obj.toString());
+//        HttpClient client = HttpClientBuilder.create().build();
+//        HttpPost post = new HttpPost("https://hooks.slack.com/services/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");
+//        HttpPost post1 = new HttpPost("https://hooks.slack.com/services/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");
+//        StringEntity postingString = new StringEntity(obj.toString());//gson.tojson() converts your pojo to json
+//        post.setEntity(postingString);
+//        post.setHeader("content-type", "application/x-www-form-urlencoded");
 //        post.setHeader("Content-type", "application/json");
-        HttpResponse response = client.execute(post);
+//        HttpResponse response = client.execute(post);
         
 //        HttpClient client = HttpClientBuilder.create().build();
 //        StringEntity posting = new StringEntity(obj.toString());
